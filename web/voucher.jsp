@@ -1,0 +1,69 @@
+<%-- 
+    Document   : voucher
+    Created on : 02-12-2017, 19:57:35
+    Author     : Jonathan
+--%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Voucher</title>  
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body><br>
+        <div class="container">
+            <form>
+                <div class="col-md-1">
+                    <img class="text-center" src="image/logo.png" width="100"/><br><br>
+                    <div class="text-center">
+                        <label><a href="index.jsp">Inicio</a></label><br>
+                        <label><a href="pedidosAnteriores.jsp">Ver Pedidos</a></label><br>
+                        <label><a href="ayuda.jsp">Ayuda</a></label>                   
+                    </div>
+                </div>
+                <br>
+                <div class="col-sm-2 col-md-offset-7">
+                    <label><a href="carreteras.jsp">Ver Carreteras</a></label>
+                </div><br><br>
+                <div class="row col-sm-offset-2">
+                    <div class="col-md-4 col-sm-offset-1">
+                        <h3>Pedido Número:  <c:out value="XXXXXX" default=""/></h3>
+                    </div>
+                    <br><br><br>
+                    <div class="col-md-6">
+                        <br>
+                        <div class="datagrid"><table>
+                                <thead>
+                                    <tr><th>Carretera</th>
+                                        <th>Cantidad</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>datos</td><td>datos</td><td>datos</td></tr>
+                                    <tr class="alt"><td>datos</td><td>datos</td><td>datos</td></tr>
+                                    <tr><td>datos</td><td>datos</td><td>datos</td></tr>
+                                    <tr class="alt"><td>datos</td><td>datos</td><td>datos</td></tr>
+                                </tbody>
+                            </table></div><br>
+                        <div class="col-md-5 col-sm-offset-2">
+                            <h4 class="text-dark">Total a Pagar: $ <c:out value="${total}" default="0"/></h4>
+                            <br>
+                        </div>
+                        <h4 class="col-md-8">OPCIÓN DE ENVIO: <c:out value="${pedido.envio}" default=""/></h4>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+    <br><br><br>
+    <footer class="col-md-offset-4">
+        <label>Muchas gracias por preferirnos</label>
+    </footer>
+</html>
