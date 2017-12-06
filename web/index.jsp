@@ -18,10 +18,10 @@
         <form>
             <div class="container text-center col-sm-offset-3" style="margin-top: 13%">
                 <div class="col-md-3">
-                    <button type="submit" class="btn btn-block btn-primary btn-lg" onclick='this.form.action = "principal.jsp"'>Nuevo Pedido</button>
+                    <button name="direccion" value="principal.jsp" type="submit" class="btn btn-block btn-primary btn-lg" onclick='this.form.action = "SCargar"'>Nuevo Pedido</button>
                 </div>
                 <div class="col-md-3 col-sm-offset-1">
-                    <button type="submit" class="btn btn-block btn-primary btn-lg">Pedidos Anteriores</button>
+                    <button name="direccion" value="pedidosAnteriores.jsp" type="submit" class="btn btn-block btn-primary btn-lg" onclick='this.form.action="SCargar"'>Pedidos Anteriores</button>
                 </div>
             </div>
         </form>
