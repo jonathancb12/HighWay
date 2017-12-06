@@ -46,10 +46,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td>datos</td><td>datos</td><td>datos</td></tr>
-                                    <tr class="alt"><td>datos</td><td>datos</td><td>datos</td></tr>
-                                    <tr><td>datos</td><td>datos</td><td>datos</td></tr>
-                                    <tr class="alt"><td>datos</td><td>datos</td><td>datos</td></tr>
+                                    <tr>
+                                        <td>Ruta 68</td>
+                                        <td><c:out value="${cantidad[1]}" default="0"/></td>
+                                        <td><label>[-]</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Autopista Del Sol</td>
+                                        <td><c:out value="${cantidad[2]}" default="0"/></td>
+                                        <td><label>[-]</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ruta Guardia Vieja</td>
+                                        <td><c:out value="${cantidad[3]}" default="0"/></td>
+                                        <td><label>[-]</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ruta Troncal Sur</td>
+                                        <td><c:out value="${cantidad[4]}" default="0"/></td>
+                                        <td><label>[-]</label></td>
+                                    </tr>
                                 </tbody>
                             </table></div><br>
                         <div class="col-md-5 col-sm-offset-2">

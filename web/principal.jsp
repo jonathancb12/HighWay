@@ -34,6 +34,7 @@
                     <label><a href="carreteras.jsp">Ver Carreteras</a></label>
                 </div><br><br>
                 <div class="col-sm-2 col-sm-offset-1">
+                    <label style="color: red"><c:out value="${mensaje}" default=""/></label>
                     Rut: <br><br>
                     Nombre: <br><br>
                     Dirección: <br><br>
@@ -42,8 +43,8 @@
                 <div class="row">
                     <input name="rut" type="number" class="input-group"/><br>
                     <input name="nombre" type="text" class="input-group"/><br>
-                    <input name="direccion" type="text" class="input-group" /><br>
-                    <input name="comprador" type="text" class="input-group"/>
+                    <input name="direccion" type="text" class="input-group"/><br>
+                    <input name="comprador" type="text" class="input-group" />
                 </div><br>
                 <div class="row">
                     <div class="col-md-5 col-sm-offset-2">
@@ -65,7 +66,7 @@
                     <br><br><br>
                     <label class="text-info">Opciones de Retiro</label><br>
                     <input type="radio" name="retiro" value="Oficina"/> Oficina<br>
-                    <input type="radio" name="retiro" value="Envio Cliente" /> Envío Cliente<br>
+                    <input type="radio" name="retiro" value="Envio" /> Envío Cliente<br>
                 </div>
                 <br><br>
                 <div class="row">
@@ -78,20 +79,33 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${carreterasPedido}" var="cp">
-                                        <tr>
-                                            <td><c:out value="${cp.carretera}"/></td>
-                                            <td><c:out value="${cantidad[cp.id]}"/></td>
-                                            <td></td>
-                                        </tr>
-                                    </c:forEach>
+                                    <tr>
+                                        <td>Ruta 68</td>
+                                        <td><c:out value="${cantidad[1]}" default="0"/></td>
+                                        <td><label>[-]</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Autopista Del Sol</td>
+                                        <td><c:out value="${cantidad[2]}" default="0"/></td>
+                                        <td><label>[-]</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ruta Guardia Vieja</td>
+                                        <td><c:out value="${cantidad[3]}" default="0"/></td>
+                                        <td><label>[-]</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ruta Troncal Sur</td>
+                                        <td><c:out value="${cantidad[4]}" default="0"/></td>
+                                        <td><label>[-]</label></td>
+                                    </tr>
                                 </tbody>
                             </table></div><br>
                         <div class="col-md-5">
                             <label class="text-dark">Total a Pagar: $ <c:out value="${total}" default="0"/></label>
                         </div>
                         <div class="col-md-2">
-                            <input type="submit" value="Hacer Pedido" class="btn-primary"/>
+                            <input type="submit" value="Hacer Pedido" class="btn-primary" onclick='this.form.action = "SConfirmarPedido"'/>
                         </div>
                     </div>
                 </div>

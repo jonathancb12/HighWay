@@ -22,16 +22,17 @@ public class PedidoDAO {
     public PedidoDAO() {
     }
 
-    public boolean registrarPedido(Pedido p) {
+    public Pedido registrarPedido(Pedido p) {
         try {
             ps = con.getConnection().prepareStatement(insert);
             ps.setInt(1, p.getRut());
             ps.setString(2, p.getFormaPago());
             ps.setString(3, p.getRetiro());
-            return ps.execute();
+            ps.execute();
+            return buscarUltimo();
         } catch (SQLException e) {
         }
-        return false;
+        return null;
     }
 
     public ArrayList<Pedido> listarPedidos() {
@@ -61,7 +62,7 @@ public class PedidoDAO {
             while (rs.next()) {
                 Pedido p = new Pedido();
                 p.setIdPedido(rs.getInt("id_pedido"));
-                p.setRut(rs.getInt("rut")); 
+                p.setRut(rs.getInt("rut"));
                 p.setFormaPago(rs.getString("forma_pago"));
                 p.setRetiro(rs.getString("retiro"));
                 lista.add(p);
@@ -71,4 +72,19 @@ public class PedidoDAO {
         return lista;
     }
 
+    private Pedido buscarUltimo() {
+        try {
+            ps = con.getConnection().prepareStatement("select * from pedido where max(id)");
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Pedido p = new Pedido();
+                p.setIdPedido(rs.getInt("id_pedido"));
+                p.setRut(rs.getInt("rut"));
+                p.setFormaPago(rs.getString("forma_pago"));
+                p.setRetiro(rs.getString("retiro"));
+            }
+        } catch (SQLException e) {
+        }
+        return null;
+    }
 }

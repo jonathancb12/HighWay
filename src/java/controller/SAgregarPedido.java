@@ -25,6 +25,7 @@ import model.CarreteraDAO;
 public class SAgregarPedido extends HttpServlet {
 
     ArrayList<Carretera> carreterasPedido = new ArrayList<>();
+    Integer[] cantidad = {0, 0, 0, 0, 0};
     Carretera c;
     CarreteraDAO cd;
 
@@ -33,14 +34,15 @@ public class SAgregarPedido extends HttpServlet {
         try {
             int total = 0;
             HttpSession session = request.getSession();
-            Integer[] cantidad = {0, 0, 0, 0};
+
             cd = new CarreteraDAO();
             c = cd.buscar(Integer.parseInt(request.getParameter("carretera")));
-            for (Carretera car : carreterasPedido) {
-               
-                cantidad[car.getId()] += 1;
+            cantidad[c.getId()] += 1;
+            carreterasPedido.add(c);
+            for (Carretera car : carreterasPedido) {   
                 total += car.getValor();
             }
+
             session.setAttribute("total", total);
             session.setAttribute("carreterasPedido", carreterasPedido);
             session.setAttribute("cantidad", cantidad);

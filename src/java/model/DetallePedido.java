@@ -13,9 +13,8 @@ public class DetallePedido {
 
     private Integer idDetalle;
     private int cantidad;
-    private Pedido idPedido;
-
-    private Carretera idCarretera;
+    private int idPedido;
+    private int idCarretera;
 
     public DetallePedido() {
     }
@@ -36,19 +35,19 @@ public class DetallePedido {
         this.cantidad = cantidad;
     }
 
-    public Pedido getIdPedido() {
+    public int getIdPedido() {
         return idPedido;
     }
 
-    public void setIdPedido(Pedido idPedido) {
+    public void setIdPedido(int idPedido) {
         this.idPedido = idPedido;
     }
 
-    public Carretera getIdCarretera() {
+    public int getIdCarretera() {
         return idCarretera;
     }
 
-    public void setIdCarretera(Carretera idCarretera) {
+    public void setIdCarretera(int idCarretera) {
         this.idCarretera = idCarretera;
     }
 
