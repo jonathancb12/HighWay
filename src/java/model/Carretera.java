@@ -13,7 +13,7 @@ public class Carretera {
 
     private Integer id;
     private String carretera;
-    private Integer valor;
+    private int valor;
 
     public Carretera() {
     }
@@ -34,13 +34,12 @@ public class Carretera {
         this.carretera = carretera;
     }
 
-    public Integer getValor() {
+    public int getValor() {
         return valor;
     }
 
-    public void setValor(Integer valor) {
+    public void setValor(int valor) {
         this.valor = valor;
     }
-    
-    
+
 }

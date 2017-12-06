@@ -17,17 +17,6 @@ public class Empresa {
     public Empresa() {
     }
 
-    public Empresa(Integer rut) {
-        this.rut = rut;
-    }
-
-    public Empresa(Integer rut, String nombre, String direccion, String comprador) {
-        this.rut = rut;
-        this.nombre = nombre;
-        this.direccion = direccion;
-        this.comprador = comprador;
-    }
-
     public Integer getRut() {
         return rut;
     }

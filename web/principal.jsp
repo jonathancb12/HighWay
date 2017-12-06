@@ -54,7 +54,7 @@
                                 <option value="${car.id}"><c:out value="${car.carretera}"/></option>
                             </c:forEach>
                         </select>
-                    </div><br><br><input type="submit" value="Agregar" class="btn-primary"/>
+                    </div><br><br><input type="submit" value="Agregar" class="btn-primary" onclick='this.form.action = "SAgregarPedido"'/>
                 </div>
                 <div class="col-md-2">
                     <br>
@@ -78,10 +78,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td>datos</td><td>datos</td><td>datos</td></tr>
-                                    <tr class="alt"><td>datos</td><td>datos</td><td>datos</td></tr>
-                                    <tr><td>datos</td><td>datos</td><td>datos</td></tr>
-                                    <tr class="alt"><td>datos</td><td>datos</td><td>datos</td></tr>
+                                    <c:forEach items="${carreterasPedido}" var="cp">
+                                        <c:forEach items="${cantidad}" var="can">
+                                            <c:if test="${can == cp.id}">
+                                                <tr>
+                                                    <td><c:out value="${cp.carretera}"/></td>
+                                                    <td><c:out value="${can}"/></td>
+                                                    <td></td>
+                                                </tr>
+                                            </c:if>
+                                        </c:forEach>
+                                    </c:forEach>
                                 </tbody>
                             </table></div><br>
                         <div class="col-md-5">

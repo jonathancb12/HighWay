@@ -7,11 +7,9 @@ package model;
 public class Pedido {
 
     private Integer idPedido;
-    private int cantidad;
     private String formaPago;
     private String retiro;
-    private int rutEmpresa;
-    private int idCarretera;
+    private int rut;
 
     public Pedido() {
     }
@@ -22,14 +20,6 @@ public class Pedido {
 
     public void setIdPedido(Integer idPedido) {
         this.idPedido = idPedido;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
     }
 
     public String getFormaPago() {
@@ -49,19 +39,12 @@ public class Pedido {
     }
 
     public int getRut() {
-        return rutEmpresa;
+        return rut;
     }
 
     public void setRut(int rut) {
-        this.rutEmpresa = rut;
+        this.rut = rut;
     }
-
-    public int getIdCarretera() {
-        return idCarretera;
-    }
-
-    public void setIdCarretera(int idCarretera) {
-        this.idCarretera = idCarretera;
-    }
-
+    
+    
 }
