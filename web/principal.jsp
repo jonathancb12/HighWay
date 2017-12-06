@@ -79,15 +79,11 @@
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${carreterasPedido}" var="cp">
-                                        <c:forEach items="${cantidad}" var="can">
-                                            <c:if test="${can == cp.id}">
-                                                <tr>
-                                                    <td><c:out value="${cp.carretera}"/></td>
-                                                    <td><c:out value="${can}"/></td>
-                                                    <td></td>
-                                                </tr>
-                                            </c:if>
-                                        </c:forEach>
+                                        <tr>
+                                            <td><c:out value="${cp.carretera}"/></td>
+                                            <td><c:out value="${cantidad[cp.id]}"/></td>
+                                            <td></td>
+                                        </tr>
                                     </c:forEach>
                                 </tbody>
                             </table></div><br>
