@@ -34,10 +34,10 @@ public class SAgregarPedido extends HttpServlet {
             int total = 0;
             HttpSession session = request.getSession();
             Integer[] cantidad = {0, 0, 0, 0};
-            Carretera[] carreterasPedido = new Carretera[4];
             cd = new CarreteraDAO();
             c = cd.buscar(Integer.parseInt(request.getParameter("carretera")));
             for (Carretera car : carreterasPedido) {
+               
                 cantidad[car.getId()] += 1;
                 total += car.getValor();
             }
