@@ -41,7 +41,7 @@ public class SConfirmarPedido extends HttpServlet {
             String direccion = request.getParameter("direccion");
             String comprador = request.getParameter("comprador");
             out.print("Recibe");
-            if (rut != 0 && !(pago.equals("") & retiro.equals("") & nombre.equals("") & direccion.equals("") & comprador.equals(""))) {
+            if (rut != 0 && pago.isEmpty() && retiro.isEmpty() && nombre.isEmpty() && direccion.isEmpty() && comprador.isEmpty()) {
                 carreteras = (ArrayList<Carretera>) session.getAttribute("carreterasPedido");
                 cantidad = (Integer[]) session.getAttribute("cantidad");
 

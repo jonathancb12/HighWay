@@ -29,12 +29,12 @@
                     </div>
                 </div>
                 <br><div class="col-md-7 text-center">
-                    <label>Datos Empresa</label></div>
+                    <label>Datos Empresa</label>
+                </div>
                 <div class="col-sm-2 col-sm-offset-1">
                     <label><a href="carreteras.jsp">Ver Carreteras</a></label>
                 </div><br><br>
                 <div class="col-sm-2 col-sm-offset-1">
-                    <label style="color: red"><c:out value="${mensaje}" default=""/></label>
                     Rut: <br><br>
                     Nombre: <br><br>
                     Dirección: <br><br>
@@ -106,7 +106,8 @@
                         </div>
                         <div class="col-md-2">
                             <input type="submit" value="Hacer Pedido" class="btn-primary" onclick='this.form.action = "SConfirmarPedido"'/>
-                        </div>
+                        </div><br>
+                        <label style="color: red"><c:out value="${mensaje}" default=""/></label>
                     </div>
                 </div>
             </form>
