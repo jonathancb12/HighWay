@@ -66,8 +66,26 @@ public class SConfirmarPedido extends HttpServlet {
                 DetallePedido d = new DetallePedido();
                 d.setIdPedido(p.getIdPedido());
 
+                Object[][] car = {{1, 0}, {2, 0}, {3, 0}, {4, 0}};
                 for (int i = 0; i < carreteras.size(); i++) {
-                    dp.registrarDetalle(p, carreteras.get(i), cantidad[i]);
+                    switch (carreteras.get(i).getId()) {
+                        case 1:
+                            car[0][1] = Integer.parseInt(car[0][1].toString()) + 1;
+                            break;
+                        case 2:
+                            car[1][1] = Integer.parseInt(car[1][1].toString()) + 1;
+                            break;
+                        case 3:
+                            car[2][1] = Integer.parseInt(car[2][1].toString()) + 1;
+                            break;
+                        case 4:
+                            car[3][1] = Integer.parseInt(car[3][1].toString()) + 1;
+                            break;
+                    }
+                }
+
+                for (int i = 0; i < car.length; i++) {
+                    dp.registrarDetalle(p, (i + 1), Integer.parseInt(car[i][1].toString()));
                 }
 
                 session.setAttribute("pedido", p);
@@ -82,7 +100,7 @@ public class SConfirmarPedido extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

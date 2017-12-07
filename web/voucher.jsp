@@ -33,7 +33,7 @@
                 </div><br><br>
                 <div class="row col-sm-offset-2">
                     <div class="col-md-4 col-sm-offset-1">
-                        <h3>Pedido Número:  <c:out value="XXXXXX" default=""/></h3>
+                        <h3>Pedido Número:  <c:out value="${pedido.idPedido}" default=""/></h3>
                     </div>
                     <br><br><br>
                     <div class="col-md-6">
@@ -42,29 +42,24 @@
                                 <thead>
                                     <tr><th>Carretera</th>
                                         <th>Cantidad</th>
-                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Ruta 68</td>
                                         <td><c:out value="${cantidad[1]}" default="0"/></td>
-                                        <td><label>[-]</label></td>
                                     </tr>
                                     <tr>
                                         <td>Autopista Del Sol</td>
                                         <td><c:out value="${cantidad[2]}" default="0"/></td>
-                                        <td><label>[-]</label></td>
                                     </tr>
                                     <tr>
                                         <td>Ruta Guardia Vieja</td>
                                         <td><c:out value="${cantidad[3]}" default="0"/></td>
-                                        <td><label>[-]</label></td>
                                     </tr>
                                     <tr>
                                         <td>Ruta Troncal Sur</td>
                                         <td><c:out value="${cantidad[4]}" default="0"/></td>
-                                        <td><label>[-]</label></td>
                                     </tr>
                                 </tbody>
                             </table></div><br>
@@ -72,7 +67,7 @@
                             <h4 class="text-dark">Total a Pagar: $ <c:out value="${total}" default="0"/></h4>
                             <br>
                         </div>
-                        <h4 class="col-md-8">OPCIÓN DE ENVIO: <c:out value="${pedido.envio}" default=""/></h4>
+                        <h4 class="col-md-8">OPCIÓN DE ENVIO: <c:out value="${pedido.retiro}" default=""/></h4>
                     </div>
                 </div>
             </form>

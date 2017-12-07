@@ -4,6 +4,7 @@
     Author     : Jonathan
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,7 +19,7 @@
     </head>
     <body><br>
         <div class="container">
-            <form>
+            <form action="SPedidosAnteriores">
                 <div class="col-md-1">
                     <img class="text-center" src="image/logo.png" width="100"/><br><br>
                     <div class="text-center">
@@ -33,20 +34,25 @@
                 </div><br><br><br>
                 <div class="col-md-5 col-md-offset-2">
                     <input name="rut" type="number" class="input-buscar" placeholder="Rut Cliente"/> 
-                    <button type="submit" value="Buscar" class="btn btn-primary">Buscar</button>
-                </div>
-                <div class="datagrid"><table>
+                    <input type="submit" value="Buscar" class="btn btn-primary"/>
+                    <label style="color: red"><c:out value="${mensaje}" default=""/></label>
+                </div><br><br><br>
+                <div class="col-md-7 col-md-offset-1 datagrid"><table>
                         <thead>
                             <tr><th>Carretera</th>
                                 <th>Cantidad</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td>datos</td><td>datos</td><td>datos</td></tr>
-                            <tr class="alt"><td>datos</td><td>datos</td><td>datos</td></tr>
-                            <tr><td>datos</td><td>datos</td><td>datos</td></tr>
-                            <tr class="alt"><td>datos</td><td>datos</td><td>datos</td></tr>
+                            <c:forEach items="${pedidos}">
+                                <c:forEach items="${detalles}" var="d">
+                                    <tr>
+                                        <td><c:out value="${cadenas}"/></td>
+                                        <td>${d.cantidad}</td>
+                                        <td>[+]</td>
+                                    </tr>
+                                </c:forEach>
+                            </c:forEach>
                         </tbody>
                     </table>
                 </div>

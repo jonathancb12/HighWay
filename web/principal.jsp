@@ -66,7 +66,7 @@
                     <br><br><br>
                     <label class="text-info">Opciones de Retiro</label><br>
                     <input type="radio" name="retiro" value="Oficina"/> Oficina<br>
-                    <input type="radio" name="retiro" value="Envio" /> Envío Cliente<br>
+                    <input type="radio" name="retiro" value="Envio Cliente" /> Envío Cliente<br>
                 </div>
                 <br><br>
                 <div class="row">

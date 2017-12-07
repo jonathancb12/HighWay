@@ -1,7 +1,8 @@
 package controller;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
+import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,41 +12,53 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Carretera;
 import model.CarreteraDAO;
+import model.DetallePedido;
+import model.DetallePedidoDAO;
+import model.Pedido;
+import model.PedidoDAO;
 
 /**
  *
  * @author Jonathan
  */
-@WebServlet(name = "SAgregarPedido", urlPatterns = {"/SAgregarPedido"})
-public class SAgregarPedido extends HttpServlet {
-
-    ArrayList<Carretera> carreterasPedido = new ArrayList<>();
-    Integer[] cantidad = {0, 0, 0, 0, 0};
-    Carretera c;
-    CarreteraDAO cd;
-    DecimalFormat formatea = new DecimalFormat("###,###.##");
+@WebServlet(name = "SPedidosAnteriores", urlPatterns = {"/SPedidosAnteriores"})
+public class SPedidosAnteriores extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            int total = 0;
             HttpSession session = request.getSession();
+            PedidoDAO pd = new PedidoDAO();
+            DetallePedidoDAO dp = new DetallePedidoDAO();
+            CarreteraDAO cd = new CarreteraDAO();
 
-            cd = new CarreteraDAO();
-            c = cd.buscar(Integer.parseInt(request.getParameter("carretera")));
-            cantidad[c.getId()] += 1;
-            carreterasPedido.add(c);
-            for (Carretera car : carreterasPedido) {
-                total += car.getValor();
+            String mje = "";
+            String texto = "";
+            ArrayList<String> cadenas = new ArrayList<>();
+
+            String rut = request.getParameter("rut");
+            if (!(rut.isEmpty())) {
+                int key = Integer.parseInt(rut);
+                ArrayList<DetallePedido> detalles = dp.listarDetalles(key);
+                ArrayList<Pedido> pedidos = pd.buscarPedidosEmpresa(key);
+                for (Pedido p : pedidos) {
+                    for (DetallePedido d : detalles) {
+                        if (d.getIdPedido() == p.getIdPedido()) {
+                            texto += cd.buscar(d.getIdCarretera()).getCarretera() + " ";
+                        }
+                    }
+                    cadenas.add(texto);
+                    texto = "";
+                }
+                session.setAttribute("pedidos", pedidos);
+                session.setAttribute("detalles", detalles);
+                session.setAttribute("cadenas", cadenas);
+            } else {
+                mje = "Se requiere el rut para buscar los pedidos...";
+                session.setAttribute("mensaje", mje);
             }
-
-            session.setAttribute("total", formatea.format(total));
-            session.setAttribute("carreterasPedido", carreterasPedido);
-            session.setAttribute("cantidad", cantidad);
-
-            response.sendRedirect("principal.jsp");
-
-        } catch (NumberFormatException ex) {
+            response.sendRedirect("pedidosAnteriores.jsp");
+        } catch (Exception ex) {
 
         }
     }

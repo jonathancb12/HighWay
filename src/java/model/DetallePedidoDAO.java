@@ -23,11 +23,11 @@ public class DetallePedidoDAO {
     PreparedStatement ps;
     ResultSet rs;
 
-    public void registrarDetalle(Pedido p, Carretera c, int cantidad) {
+    public void registrarDetalle(Pedido p, int id, int cantidad) {
         try {
             ps = con.getConnection().prepareStatement(insert);
             ps.setInt(1, p.getIdPedido());
-            ps.setInt(2, c.getId());
+            ps.setInt(2, id);
             ps.setInt(3, cantidad);
             ps.execute();
         } catch (SQLException ex) {
