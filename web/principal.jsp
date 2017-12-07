@@ -19,7 +19,7 @@
     </head>
     <body><br>
         <div class="container">
-            <form>
+            <form method="get">
                 <div class="col-md-1">
                     <img class="text-center" src="image/logo.png" width="100"/><br><br>
                     <div class="text-center">

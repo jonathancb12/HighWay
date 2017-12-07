@@ -31,34 +31,39 @@ public class SConfirmarPedido extends HttpServlet {
             throws ServletException, IOException {
         try {
             HttpSession session = request.getSession();
-            PedidoDAO pd = new PedidoDAO();
-            DetallePedidoDAO dp = new DetallePedidoDAO();
-            out.print("Llega");
+
             int rut = Integer.parseInt(request.getParameter("rut"));
             String pago = request.getParameter("pago");
             String retiro = request.getParameter("retiro");
             String nombre = request.getParameter("nombre");
             String direccion = request.getParameter("direccion");
             String comprador = request.getParameter("comprador");
-            out.print("Recibe");
-            if (rut != 0 && pago.isEmpty() && retiro.isEmpty() && nombre.isEmpty() && direccion.isEmpty() && comprador.isEmpty()) {
+            if (rut != 0 && !pago.isEmpty() && !retiro.isEmpty() && !nombre.isEmpty() && !direccion.isEmpty() && !comprador.isEmpty()) {
                 carreteras = (ArrayList<Carretera>) session.getAttribute("carreterasPedido");
                 cantidad = (Integer[]) session.getAttribute("cantidad");
 
-                Pedido p = new Pedido();
-                Empresa e = new Empresa();
-                DetallePedido d = new DetallePedido();
+                //Instancia objetos DAO
                 EmpresaDAO ed = new EmpresaDAO();
+                PedidoDAO pd = new PedidoDAO();
+                DetallePedidoDAO dp = new DetallePedidoDAO();
 
+                //Crea y registra Empresa
+                Empresa e = new Empresa();
                 e.setRut(rut);
                 e.setNombre(nombre);
                 e.setDireccion(direccion);
                 e.setComprador(comprador);
+                ed.registrarEmpresa(e);
 
+                //Crea y registra Pedido
+                Pedido p = new Pedido();
                 p.setRut(rut);
                 p.setFormaPago(pago);
                 p.setRetiro(retiro);
                 p = pd.registrarPedido(p);
+
+                //
+                DetallePedido d = new DetallePedido();
                 d.setIdPedido(p.getIdPedido());
 
                 for (int i = 0; i < carreteras.size(); i++) {

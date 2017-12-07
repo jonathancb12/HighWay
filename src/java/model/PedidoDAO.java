@@ -73,18 +73,20 @@ public class PedidoDAO {
     }
 
     private Pedido buscarUltimo() {
+        Pedido p = null;
         try {
-            ps = con.getConnection().prepareStatement("select * from pedido where max(id)");
+            String sql = "select * from pedido order by id_pedido desc limit 1";
+            ps = con.getConnection().prepareStatement(sql);
             rs = ps.executeQuery();
             if (rs.next()) {
-                Pedido p = new Pedido();
+                p = new Pedido();
                 p.setIdPedido(rs.getInt("id_pedido"));
                 p.setRut(rs.getInt("rut"));
                 p.setFormaPago(rs.getString("forma_pago"));
                 p.setRetiro(rs.getString("retiro"));
             }
-        } catch (SQLException e) {
+        } catch (SQLException ex) {
         }
-        return null;
+        return p;
     }
 }
