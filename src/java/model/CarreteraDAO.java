@@ -49,9 +49,10 @@ public class CarreteraDAO {
                 c.setId(rs.getInt("id"));
                 c.setCarretera(rs.getString("carretera"));
                 c.setValor(rs.getInt("valor"));
+                return c;
             }
         } catch (SQLException e) {
         }
-        return c;
+        return null;
     }
 }

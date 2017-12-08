@@ -37,21 +37,25 @@
                     <input type="submit" value="Buscar" class="btn btn-primary"/>
                     <label style="color: red"><c:out value="${mensaje}" default=""/></label>
                 </div><br><br><br>
-                <div class="col-md-7 col-md-offset-1 datagrid"><table>
+                <div class="col-md-7 col-md-offset-1 datagrid">
+                    <table>
                         <thead>
                             <tr><th>Carretera</th>
                                 <th>Cantidad</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <c:forEach items="${pedidos}">
-                                <c:forEach items="${detalles}" var="d">
-                                    <tr>
-                                        <td><c:out value="${cadenas}"/></td>
-                                        <td>${d.cantidad}</td>
-                                        <td>[+]</td>
-                                    </tr>
-                                </c:forEach>
+                                <tr>
+                                    <c:forEach items="${cadenas}" var="ca">
+                                        <td><c:out value="${ca}"/></td>
+                                    </c:forEach>
+                                    <c:forEach items="${totales}" var="t">
+                                    <td><c:out value="${t}"/></td>
+                                    </c:forEach>
+                                    <td>[+]</td>
+                                </tr>
                             </c:forEach>
                         </tbody>
                     </table>

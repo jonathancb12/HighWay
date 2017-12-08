@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class DetallePedidoDAO {
 
-    private final String read_all = "SELECT id_detalle, id_pedido, id_carretera, cantidad  FROM detalle_pedido d inner join pedido p on d.id_pedido = p.id_pedido WHERE p.rut = ?";
+    private final String read_all = "SELECT * FROM pedido p INNER join detalle_pedido d on p.id_pedido = d.id_pedido INNER JOIN carretera c on d.id_carretera = c.id WHERE p.rut = ?";
     private final String insert = "INSERT INTO detalle_pedido(id_pedido, id_carretera, cantidad) VALUES (?,?,?)";
 
     private final Conexion con = Conexion.instancia();
@@ -42,10 +42,10 @@ public class DetallePedidoDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 DetallePedido d = new DetallePedido();
-                d.setIdDetalle(rs.getInt("id_detalle"));
                 d.setIdPedido(rs.getInt("id_pedido"));
                 d.setIdCarretera(rs.getInt("id_carretera"));
                 d.setCantidad(rs.getInt("cantidad"));
+                lista.add(d);
             }
         } catch (SQLException e) {
         }

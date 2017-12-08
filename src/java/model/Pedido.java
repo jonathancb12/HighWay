@@ -10,6 +10,7 @@ public class Pedido {
     private String formaPago;
     private String retiro;
     private int rut;
+    private int total;
 
     public Pedido() {
     }
@@ -45,6 +46,13 @@ public class Pedido {
     public void setRut(int rut) {
         this.rut = rut;
     }
-    
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
     
 }

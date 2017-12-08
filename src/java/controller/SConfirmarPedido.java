@@ -41,6 +41,7 @@ public class SConfirmarPedido extends HttpServlet {
             if (rut != 0 && !pago.isEmpty() && !retiro.isEmpty() && !nombre.isEmpty() && !direccion.isEmpty() && !comprador.isEmpty()) {
                 carreteras = (ArrayList<Carretera>) session.getAttribute("carreterasPedido");
                 cantidad = (Integer[]) session.getAttribute("cantidad");
+                int total = Integer.parseInt(session.getAttribute("total").toString());
 
                 //Instancia objetos DAO
                 EmpresaDAO ed = new EmpresaDAO();
@@ -58,6 +59,7 @@ public class SConfirmarPedido extends HttpServlet {
                 //Crea y registra Pedido
                 Pedido p = new Pedido();
                 p.setRut(rut);
+                p.setTotal(total);
                 p.setFormaPago(pago);
                 p.setRetiro(retiro);
                 p = pd.registrarPedido(p);

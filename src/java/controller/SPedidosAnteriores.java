@@ -1,8 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import static java.lang.System.out;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Carretera;
 import model.CarreteraDAO;
 import model.DetallePedido;
 import model.DetallePedidoDAO;
@@ -35,7 +32,7 @@ public class SPedidosAnteriores extends HttpServlet {
             String mje = "";
             String texto = "";
             ArrayList<String> cadenas = new ArrayList<>();
-
+            ArrayList<Integer> totales = new ArrayList<>();
             String rut = request.getParameter("rut");
             if (!(rut.isEmpty())) {
                 int key = Integer.parseInt(rut);
@@ -43,22 +40,21 @@ public class SPedidosAnteriores extends HttpServlet {
                 ArrayList<Pedido> pedidos = pd.buscarPedidosEmpresa(key);
                 for (Pedido p : pedidos) {
                     for (DetallePedido d : detalles) {
-                        if (d.getIdPedido() == p.getIdPedido()) {
-                            texto += cd.buscar(d.getIdCarretera()).getCarretera() + " ";
-                        }
+                        texto += cd.buscar(d.getIdCarretera()).getCarretera() + " - ";
                     }
+                    totales.add(p.getTotal());
                     cadenas.add(texto);
                     texto = "";
                 }
                 session.setAttribute("pedidos", pedidos);
-                session.setAttribute("detalles", detalles);
+                session.setAttribute("totales", totales);
                 session.setAttribute("cadenas", cadenas);
             } else {
                 mje = "Se requiere el rut para buscar los pedidos...";
-                session.setAttribute("mensaje", mje);
             }
+            session.setAttribute("mensaje", mje);
             response.sendRedirect("pedidosAnteriores.jsp");
-        } catch (Exception ex) {
+        } catch (IOException | NumberFormatException ex) {
 
         }
     }
