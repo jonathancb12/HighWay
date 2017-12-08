@@ -63,6 +63,7 @@ public class EmpresaDAO {
                 e.setRut(rs.getInt("rut"));
                 e.setNombre(rs.getString("nombre"));
                 e.setDireccion(rs.getString("direcion"));
+                return e;
             }
         } catch (SQLException ex) {
         }

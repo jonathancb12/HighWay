@@ -87,7 +87,7 @@ public class SConfirmarPedido extends HttpServlet {
                 //Inserta en tabla detalles_pedido
                 d.setIdPedido(p.getIdPedido());
                 for (int i = 0; i < car.length; i++) {
-                    dp.registrarDetalle(p, i, Integer.parseInt(car[i][1].toString()));
+                    dp.registrarDetalle(p, (i) + 1, Integer.parseInt(car[i][1].toString()));
                 }
                 //Prepara datos para voucher
                 cantidad1 = cantidad;
