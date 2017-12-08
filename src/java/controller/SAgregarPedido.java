@@ -42,6 +42,7 @@ public class SAgregarPedido extends HttpServlet {
             session.setAttribute("total", formatea.format(total));
             session.setAttribute("carreterasPedido", carreterasPedido);
             session.setAttribute("cantidad", cantidad);
+            session.setAttribute("totalPedido", total);
 
             response.sendRedirect("principal.jsp");
 

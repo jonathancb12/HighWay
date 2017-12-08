@@ -26,6 +26,7 @@ public class SConfirmarPedido extends HttpServlet {
 
     ArrayList<Carretera> carreteras;
     Integer[] cantidad;
+    Integer[] cantidad1;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -41,7 +42,7 @@ public class SConfirmarPedido extends HttpServlet {
             if (rut != 0 && !pago.isEmpty() && !retiro.isEmpty() && !nombre.isEmpty() && !direccion.isEmpty() && !comprador.isEmpty()) {
                 carreteras = (ArrayList<Carretera>) session.getAttribute("carreterasPedido");
                 cantidad = (Integer[]) session.getAttribute("cantidad");
-                int total = Integer.parseInt(session.getAttribute("total").toString());
+                int total = Integer.parseInt(session.getAttribute("totalPedido").toString());
 
                 //Instancia objetos DAO
                 EmpresaDAO ed = new EmpresaDAO();
@@ -87,9 +88,21 @@ public class SConfirmarPedido extends HttpServlet {
                 }
 
                 for (int i = 0; i < car.length; i++) {
-                    dp.registrarDetalle(p, (i + 1), Integer.parseInt(car[i][1].toString()));
+                    if (Integer.parseInt(car[i][1].toString()) != 0) {
+                        dp.registrarDetalle(p, (i + 1), Integer.parseInt(car[i][1].toString()));
+                    }
                 }
+                //Prepara datos para voucher
+                cantidad1 = cantidad;
+                session.setAttribute("cantidad1", cantidad1);
+                session.setAttribute("totalPedido", total);
+                
+                //Limpia listas de pedido anterior
+                session.setAttribute("total", null);
+                session.setAttribute("carreterasPedido", null);
+                session.setAttribute("cantidad", null);
 
+                //Redirecciona al voucher
                 session.setAttribute("pedido", p);
                 response.sendRedirect("voucher.jsp");
             } else {
@@ -98,7 +111,7 @@ public class SConfirmarPedido extends HttpServlet {
                 response.sendRedirect("principal.jsp");
             }
         } catch (IOException | NumberFormatException ex) {
-            out.print("Error");
+
         }
     }
 

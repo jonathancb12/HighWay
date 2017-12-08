@@ -88,6 +88,7 @@ public class PedidoDAO {
                 p.setTotal(rs.getInt("total"));
                 p.setFormaPago(rs.getString("forma_pago"));
                 p.setRetiro(rs.getString("retiro"));
+                return p;
             }
         } catch (SQLException ex) {
         }

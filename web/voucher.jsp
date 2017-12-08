@@ -47,24 +47,24 @@
                                 <tbody>
                                     <tr>
                                         <td>Ruta 68</td>
-                                        <td><c:out value="${cantidad[1]}" default="0"/></td>
+                                        <td><c:out value="${cantidad1[1]}" default="0"/></td>
                                     </tr>
                                     <tr>
                                         <td>Autopista Del Sol</td>
-                                        <td><c:out value="${cantidad[2]}" default="0"/></td>
+                                        <td><c:out value="${cantidad1[2]}" default="0"/></td>
                                     </tr>
                                     <tr>
                                         <td>Ruta Guardia Vieja</td>
-                                        <td><c:out value="${cantidad[3]}" default="0"/></td>
+                                        <td><c:out value="${cantidad1[3]}" default="0"/></td>
                                     </tr>
                                     <tr>
                                         <td>Ruta Troncal Sur</td>
-                                        <td><c:out value="${cantidad[4]}" default="0"/></td>
+                                        <td><c:out value="${cantidad1[4]}" default="0"/></td>
                                     </tr>
                                 </tbody>
                             </table></div><br>
                         <div class="col-md-5 col-sm-offset-2">
-                            <h4 class="text-dark">Total a Pagar: $ <c:out value="${total}" default="0"/></h4>
+                            <h4 class="text-dark">Total a Pagar: $ <c:out value="${totalPedido}" default="0"/></h4>
                             <br>
                         </div>
                         <h4 class="col-md-8">OPCIÓN DE ENVIO: <c:out value="${pedido.retiro}" default=""/></h4>
