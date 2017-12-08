@@ -31,7 +31,7 @@ public class PedidoDAO {
             ps.setInt(4, p.getTotal());
             ps.setString(5, p.getRetiro());
             ps.execute();
-            return buscarUltimo();
+            return buscarUltimo(p.getRut());
         } catch (SQLException e) {
         }
         return 0;
@@ -78,13 +78,12 @@ public class PedidoDAO {
         return lista;
     }
 
-    private int buscarUltimo() {
+    private int buscarUltimo(int rut) {
         try {
-            String sql = "select max(id_pedido) from pedido order by id_pedido desc limit 1";
-            ps = con.getConnection().prepareStatement(sql);
+            ps = con.getConnection().prepareStatement("select * from pedido order by id_pedido desc limit 1");
             rs = ps.executeQuery();
             if (rs.next()) {
-                return rs.getInt("id_pedido");
+               return rs.getInt("id_pedido");
             }
         } catch (SQLException ex) {
         }

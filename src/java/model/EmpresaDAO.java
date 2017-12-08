@@ -22,11 +22,9 @@ public class EmpresaDAO {
     public EmpresaDAO() {
     }
 
-    public boolean registrarEmpresa(Empresa e) {
+    public void registrarEmpresa(Empresa e) {
         try {
-            if (buscar(e.getRut()) == null) {
-                return true;
-            } else {
+            if (buscar(e.getRut()) != null) {
                 ps = con.getConnection().prepareStatement(insert);
                 ps.setInt(1, e.getRut());
                 ps.setString(2, e.getNombre());
@@ -35,7 +33,6 @@ public class EmpresaDAO {
             }
         } catch (SQLException ex) {
         }
-        return false;
     }
 
     public ArrayList<Empresa> listarTodas() {
@@ -66,7 +63,6 @@ public class EmpresaDAO {
                 e.setRut(rs.getInt("rut"));
                 e.setNombre(rs.getString("nombre"));
                 e.setDireccion(rs.getString("direcion"));
-                return e;
             }
         } catch (SQLException ex) {
         }

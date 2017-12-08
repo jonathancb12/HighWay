@@ -47,6 +47,7 @@ public class SConfirmarPedido extends HttpServlet {
                 EmpresaDAO ed = new EmpresaDAO();
                 PedidoDAO pd = new PedidoDAO();
                 DetallePedidoDAO dp = new DetallePedidoDAO();
+                DetallePedido d = new DetallePedido();
 
                 //Crea y registra Empresa
                 Empresa e = new Empresa();
@@ -64,10 +65,7 @@ public class SConfirmarPedido extends HttpServlet {
                 p.setRetiro(retiro);
                 p.setIdPedido(pd.registrarPedido(p));
 
-                //
-                DetallePedido d = new DetallePedido();
-                d.setIdPedido(p.getIdPedido());
-
+                //Cuenta segun el id de Carretera
                 Object[][] car = {{1, 0}, {2, 0}, {3, 0}, {4, 0}};
                 for (int i = 0; i < carreteras.size(); i++) {
                     switch (carreteras.get(i).getId()) {
@@ -86,15 +84,14 @@ public class SConfirmarPedido extends HttpServlet {
                     }
                 }
 
+                //Inserta en tabla detalles_pedido
+                d.setIdPedido(p.getIdPedido());
                 for (int i = 0; i < car.length; i++) {
-                    if (Integer.parseInt(car[i][1].toString()) != 0) {
-                    dp.registrarDetalle(p, (i + 1), Integer.parseInt(car[i][1].toString()));
-                    }
+                    dp.registrarDetalle(p, i, Integer.parseInt(car[i][1].toString()));
                 }
                 //Prepara datos para voucher
                 cantidad1 = cantidad;
                 session.setAttribute("cantidad1", cantidad1);
-                session.setAttribute("totalPedido", total);
 
                 //Limpia listas de pedido anterior
                 session.setAttribute("total", null);
