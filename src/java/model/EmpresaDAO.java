@@ -13,7 +13,7 @@ public class EmpresaDAO {
 
     private final String read_all = "SELECT * FROM empresa";
     private final String read_one = "SELECT * FROM empresa WHERE rut = ?";
-    private final String insert = "INSERT INTO empresa(rut, nombre, direccion, comprador) VALUES (?,?,?,?)";
+    private final String insert = "INSERT INTO empresa(rut, nombre, direccion) VALUES (?,?,?)";
 
     private final Conexion con = Conexion.instancia();
     PreparedStatement ps;
@@ -24,12 +24,15 @@ public class EmpresaDAO {
 
     public boolean registrarEmpresa(Empresa e) {
         try {
-            ps = con.getConnection().prepareStatement(insert);
-            ps.setInt(1, e.getRut());
-            ps.setString(2, e.getNombre());
-            ps.setString(3, e.getDireccion());
-            ps.setString(4, e.getComprador());
-            return ps.execute();
+            if (buscar(e.getRut()) == null) {
+                return true;
+            } else {
+                ps = con.getConnection().prepareStatement(insert);
+                ps.setInt(1, e.getRut());
+                ps.setString(2, e.getNombre());
+                ps.setString(3, e.getDireccion());
+                ps.execute();
+            }
         } catch (SQLException ex) {
         }
         return false;
@@ -45,7 +48,6 @@ public class EmpresaDAO {
                 e.setRut(rs.getInt("rut"));
                 e.setNombre(rs.getString("nombre"));
                 e.setDireccion(rs.getString("direcion"));
-                e.setComprador(rs.getString("comprador"));
                 lista.add(e);
             }
         } catch (SQLException e) {
@@ -64,7 +66,7 @@ public class EmpresaDAO {
                 e.setRut(rs.getInt("rut"));
                 e.setNombre(rs.getString("nombre"));
                 e.setDireccion(rs.getString("direcion"));
-                e.setComprador(rs.getString("comprador"));
+                return e;
             }
         } catch (SQLException ex) {
         }

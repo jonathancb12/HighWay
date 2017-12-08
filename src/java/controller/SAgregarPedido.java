@@ -19,8 +19,8 @@ import model.CarreteraDAO;
 @WebServlet(name = "SAgregarPedido", urlPatterns = {"/SAgregarPedido"})
 public class SAgregarPedido extends HttpServlet {
 
-    ArrayList<Carretera> carreterasPedido = new ArrayList<>();
-    Integer[] cantidad = {0, 0, 0, 0, 0};
+    ArrayList<Carretera> carreterasPedido;
+    Integer[] cantidad = null;
     Carretera c;
     CarreteraDAO cd;
     DecimalFormat formatea = new DecimalFormat("###,###.##");
@@ -30,6 +30,13 @@ public class SAgregarPedido extends HttpServlet {
         try {
             int total = 0;
             HttpSession session = request.getSession();
+
+            if (session.getAttribute("carreterasPedido") == null) {
+                carreterasPedido = new ArrayList<>();
+            }
+            if (session.getAttribute("cantidad") == null) {
+                cantidad = new Integer[]{0, 0, 0, 0, 0};
+            }
 
             cd = new CarreteraDAO();
             c = cd.buscar(Integer.parseInt(request.getParameter("carretera")));

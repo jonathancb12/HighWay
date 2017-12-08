@@ -7,12 +7,8 @@ package model;
 public class Empresa {
 
     private Integer rut;
-
     private String nombre;
-
     private String direccion;
-
-    private String comprador;
 
     public Empresa() {
     }
@@ -39,14 +35,6 @@ public class Empresa {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
-    }
-
-    public String getComprador() {
-        return comprador;
-    }
-
-    public void setComprador(String comprador) {
-        this.comprador = comprador;
     }
 
 }

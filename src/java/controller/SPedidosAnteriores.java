@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Carretera;
 import model.CarreteraDAO;
 import model.DetallePedido;
 import model.DetallePedidoDAO;
@@ -52,11 +53,15 @@ public class SPedidosAnteriores extends HttpServlet {
             } else {
                 mje = "Se requiere el rut para buscar los pedidos...";
             }
+            session.setAttribute("total", 0);
+            session.setAttribute("carreterasPedido", null);
+            session.setAttribute("cantidad", null);
             session.setAttribute("mensaje", mje);
             response.sendRedirect("pedidosAnteriores.jsp");
         } catch (IOException | NumberFormatException ex) {
 
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

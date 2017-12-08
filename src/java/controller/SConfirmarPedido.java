@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import static java.lang.System.out;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -54,7 +53,6 @@ public class SConfirmarPedido extends HttpServlet {
                 e.setRut(rut);
                 e.setNombre(nombre);
                 e.setDireccion(direccion);
-                e.setComprador(comprador);
                 ed.registrarEmpresa(e);
 
                 //Crea y registra Pedido
@@ -62,8 +60,9 @@ public class SConfirmarPedido extends HttpServlet {
                 p.setRut(rut);
                 p.setTotal(total);
                 p.setFormaPago(pago);
+                p.setComprador(comprador);
                 p.setRetiro(retiro);
-                p = pd.registrarPedido(p);
+                p.setIdPedido(pd.registrarPedido(p));
 
                 //
                 DetallePedido d = new DetallePedido();
@@ -72,16 +71,16 @@ public class SConfirmarPedido extends HttpServlet {
                 Object[][] car = {{1, 0}, {2, 0}, {3, 0}, {4, 0}};
                 for (int i = 0; i < carreteras.size(); i++) {
                     switch (carreteras.get(i).getId()) {
-                        case 1:
+                        case 0:
                             car[0][1] = Integer.parseInt(car[0][1].toString()) + 1;
                             break;
-                        case 2:
+                        case 1:
                             car[1][1] = Integer.parseInt(car[1][1].toString()) + 1;
                             break;
-                        case 3:
+                        case 2:
                             car[2][1] = Integer.parseInt(car[2][1].toString()) + 1;
                             break;
-                        case 4:
+                        case 3:
                             car[3][1] = Integer.parseInt(car[3][1].toString()) + 1;
                             break;
                     }
@@ -89,14 +88,14 @@ public class SConfirmarPedido extends HttpServlet {
 
                 for (int i = 0; i < car.length; i++) {
                     if (Integer.parseInt(car[i][1].toString()) != 0) {
-                        dp.registrarDetalle(p, (i + 1), Integer.parseInt(car[i][1].toString()));
+                    dp.registrarDetalle(p, (i + 1), Integer.parseInt(car[i][1].toString()));
                     }
                 }
                 //Prepara datos para voucher
                 cantidad1 = cantidad;
                 session.setAttribute("cantidad1", cantidad1);
                 session.setAttribute("totalPedido", total);
-                
+
                 //Limpia listas de pedido anterior
                 session.setAttribute("total", null);
                 session.setAttribute("carreterasPedido", null);

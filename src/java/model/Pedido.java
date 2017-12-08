@@ -9,6 +9,7 @@ public class Pedido {
     private Integer idPedido;
     private String formaPago;
     private String retiro;
+    private String comprador;
     private int rut;
     private int total;
 
@@ -54,5 +55,12 @@ public class Pedido {
     public void setTotal(int total) {
         this.total = total;
     }
-    
+
+    public String getComprador() {
+        return comprador;
+    }
+
+    public void setComprador(String comprador) {
+        this.comprador = comprador;
+    }
 }
