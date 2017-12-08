@@ -29,22 +29,62 @@
                     </div>
                 </div>
                 <br><div class="col-md-7 text-center">
-                    <label>Datos Empresa</label></div>
+                    <h3>Datos de Contacto</h3></div><br><br><br><br>
+                <div class="col-md-7 text-center col-md-offset-1">
+                    <form action="SAyuda" method="POST">
+                    <table width="450px"><!---Este tamaño en px es personalizable -->
+                        <tr>
+                            <td valign="top">
+                                <label for="first_name">Nombre</label>
+                            </td>
+                            <td valign="top">
+                                <input  type="text" name="name" maxlength="50" size="30" required="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">
+                                <label for="last_name">Apellido </label>
+                            </td>
+                            <td valign="top">
+                                <input  type="text" name="apellido" maxlength="50" size="30" required="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">
+                                <label for="mail">E-mail </label>
+                            </td>
+                            <td valign="top">
+                                <input  type="text" name="mail" maxlength="80" size="30" required="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <label for="telephone">Teléfono </label>
+                            </td>
+                            <td>
+                                <input  type="number" name="telephone" maxlength="10" size="30" required="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">
+                                <label for="message">Mensaje </label>
+                            </td>
+                            <td valign="top">
+                                <textarea  name="message" maxlength="1000" cols="33" rows="6" required="true"/></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align:center">
+                                <br>
+                                <input type="submit" value="Enviar" class="btn btn-primary">   
+                            </td>
+                        </tr>
+                    </table>
+            </form>
+                </div>
                 <div class="col-sm-2 col-sm-offset-1">
                     <label><a href="carreteras.jsp">Ver Carreteras</a></label>
                 </div><br><br>
-                </div><br>
-                <div class="row">
-                    <div class="col-md-5 col-sm-offset-2">
-                        Seleccione carretera y agregue al pedido<br><br>
-                        <select name="carretera" class="form-control">
-                            <option selected="true" disabled="true">Carreteras</option>
-                            <c:forEach items="${carreteras}" var="car">
-                                <option value="${car.id}"><c:out value="${car.carretera}"/></option>
-                            </c:forEach>
-                        </select>
-                    </div><br><br><input type="submit" value="Agregar" class="btn-primary"/>
-                </div>
                 <br><br>
             </form>
         </div>
