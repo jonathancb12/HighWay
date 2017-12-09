@@ -13,7 +13,7 @@ public class EmpresaDAO {
 
     private final String read_all = "SELECT * FROM empresa";
     private final String read_one = "SELECT * FROM empresa WHERE rut = ?";
-    private final String insert = "INSERT INTO empresa(rut, nombre, direccion) VALUES (?,?,?)";
+    private final String insert = "INSERT INTO `empresa`(`rut`, `nombre`, `direccion`) VALUES (?,?,?)";
 
     private final Conexion con = Conexion.instancia();
     PreparedStatement ps;
@@ -24,7 +24,7 @@ public class EmpresaDAO {
 
     public void registrarEmpresa(Empresa e) {
         try {
-            if (buscar(e.getRut()) != null) {
+            if (buscar(e.getRut()) == null) {
                 ps = con.getConnection().prepareStatement(insert);
                 ps.setInt(1, e.getRut());
                 ps.setString(2, e.getNombre());

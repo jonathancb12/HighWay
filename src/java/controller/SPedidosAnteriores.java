@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Carretera;
 import model.CarreteraDAO;
 import model.DetallePedido;
 import model.DetallePedidoDAO;
@@ -26,6 +25,9 @@ public class SPedidosAnteriores extends HttpServlet {
             throws ServletException, IOException {
         try {
             HttpSession session = request.getSession();
+            session.setAttribute("pedidos", null);
+            session.setAttribute("totales", null);
+            session.setAttribute("cadenas", null);
             PedidoDAO pd = new PedidoDAO();
             DetallePedidoDAO dp = new DetallePedidoDAO();
             CarreteraDAO cd = new CarreteraDAO();
@@ -41,27 +43,35 @@ public class SPedidosAnteriores extends HttpServlet {
                 ArrayList<Pedido> pedidos = pd.buscarPedidosEmpresa(key);
                 for (Pedido p : pedidos) {
                     for (DetallePedido d : detalles) {
-                        texto += cd.buscar(d.getIdCarretera()).getCarretera() + " - ";
+                        if (p.getIdPedido() == d.getIdPedido()) {
+                            texto += cd.buscar(d.getIdCarretera()).getCarretera() + " - ";
+                        }
                     }
+                    texto = texto.substring(0,texto.length()-2);
                     totales.add(p.getTotal());
                     cadenas.add(texto);
                     texto = "";
                 }
+                session.setAttribute("detalles", detalles);
                 session.setAttribute("pedidos", pedidos);
                 session.setAttribute("totales", totales);
                 session.setAttribute("cadenas", cadenas);
+
+                //Limpia datos para nuevo Pedido
+                session.setAttribute("total", 0);
+                session.setAttribute("carreterasPedido", null);
+                session.setAttribute("cantidad", null);
+
             } else {
                 mje = "Se requiere el rut para buscar los pedidos...";
             }
-            session.setAttribute("total", 0);
-            session.setAttribute("carreterasPedido", null);
-            session.setAttribute("cantidad", null);
+
             session.setAttribute("mensaje", mje);
             response.sendRedirect("pedidosAnteriores.jsp");
         } catch (IOException | NumberFormatException ex) {
 
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

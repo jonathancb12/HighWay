@@ -63,22 +63,24 @@ public class SConfirmarPedido extends HttpServlet {
                 p.setFormaPago(pago);
                 p.setComprador(comprador);
                 p.setRetiro(retiro);
-                p.setIdPedido(pd.registrarPedido(p));
+                pd.registrarPedido(p);
+                p.setIdPedido(pd.buscarUltimoPedido(p.getRut()));
+                //Probablemente aqui y en los subprocesos, esté el problema REVISAR
 
                 //Cuenta segun el id de Carretera
                 Object[][] car = {{1, 0}, {2, 0}, {3, 0}, {4, 0}};
                 for (int i = 0; i < carreteras.size(); i++) {
                     switch (carreteras.get(i).getId()) {
-                        case 0:
+                        case 1:
                             car[0][1] = Integer.parseInt(car[0][1].toString()) + 1;
                             break;
-                        case 1:
+                        case 2:
                             car[1][1] = Integer.parseInt(car[1][1].toString()) + 1;
                             break;
-                        case 2:
+                        case 3:
                             car[2][1] = Integer.parseInt(car[2][1].toString()) + 1;
                             break;
-                        case 3:
+                        case 4:
                             car[3][1] = Integer.parseInt(car[3][1].toString()) + 1;
                             break;
                     }
@@ -91,6 +93,7 @@ public class SConfirmarPedido extends HttpServlet {
                         dp.registrarDetalle(p, (i) + 1, Integer.parseInt(car[i][1].toString()));
                     }
                 }
+
                 //Prepara datos para voucher
                 cantidad1 = cantidad;
                 session.setAttribute("cantidad1", cantidad1);

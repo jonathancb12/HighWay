@@ -13,7 +13,7 @@ public class PedidoDAO {
 
     private final String read_all = "SELECT * FROM pedido";
     private final String read_filter = "SELECT * FROM pedido WHERE rut = ?";
-    private final String insert = "INSERT INTO pedido(rut, forma_pago, comprador, total, retiro) VALUES (?,?,?,?,?)";
+    private final String insert = "INSERT INTO pedido(id_pedido, rut, forma_pago, comprador, total, retiro) VALUES (null,?,?,?,?,?)";
 
     private final Conexion con = Conexion.instancia();
     PreparedStatement ps;
@@ -22,7 +22,7 @@ public class PedidoDAO {
     public PedidoDAO() {
     }
 
-    public int registrarPedido(Pedido p) {
+    public void registrarPedido(Pedido p) {
         try {
             ps = con.getConnection().prepareStatement(insert);
             ps.setInt(1, p.getRut());
@@ -31,10 +31,8 @@ public class PedidoDAO {
             ps.setInt(4, p.getTotal());
             ps.setString(5, p.getRetiro());
             ps.execute();
-            return buscarUltimo(p.getRut());
         } catch (SQLException e) {
         }
-        return 0;
     }
 
     public ArrayList<Pedido> listarPedidos() {
@@ -78,15 +76,19 @@ public class PedidoDAO {
         return lista;
     }
 
-    private int buscarUltimo(int rut) {
+    public int buscarUltimoPedido(int rut) {
+        Pedido p = null;
+        int x = 1;
         try {
-            ps = con.getConnection().prepareStatement("select * from pedido order by id_pedido desc limit 1");
+            ps = con.getConnection().prepareStatement("select * from pedido where rut = ? order by id_pedido desc limit 1");
+            ps.setInt(1, rut);
             rs = ps.executeQuery();
             if (rs.next()) {
-               return rs.getInt("id_pedido");
-            }
+                x = rs.getInt("id_pedido");
+            } 
         } catch (SQLException ex) {
+
         }
-        return 0;
+        return x;
     }
 }

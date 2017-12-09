@@ -46,14 +46,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach items="${pedidos}" var="i">
+                            <c:forEach items="${pedidos}" varStatus="p">
                                 <tr>
-                                    <c:forEach items="${cadenas}" var="ca">
-                                        <td><c:out value="${ca[i.idPedido]}"/></td>
-                                    </c:forEach>
-                                    <c:forEach items="${totales}" var="t">
-                                    <td><c:out value="${t[i.idPedido]}"/></td>
-                                    </c:forEach>
+                                    <td><c:out value="${cadenas[p.index]}"/></td>
+                                    <td><c:out value="${totales[p.index]}"/></td>
                                     <td>[+]</td>
                                 </tr>
                             </c:forEach>
