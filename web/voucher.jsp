@@ -63,7 +63,7 @@
                                     </tr>
                                 </tbody>
                             </table></div><br>
-                        <div class="col-md-5 col-sm-offset-2">
+                        <div class="col-md-6 col-sm-offset-2">
                             <h4 class="text-dark">Total a Pagar: $ <c:out value="${totalPedido}" default="0"/></h4>
                             <br>
                         </div>

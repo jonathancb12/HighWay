@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +27,7 @@ public class SConfirmarPedido extends HttpServlet {
     ArrayList<Carretera> carreteras;
     Integer[] cantidad;
     Integer[] cantidad1;
+    DecimalFormat formatea = new DecimalFormat("###,###.##");
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
