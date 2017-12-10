@@ -1,7 +1,8 @@
 package controller;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
+import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,62 +11,34 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Carretera;
-import model.CarreteraDAO;
-import model.Empresa;
 
 /**
  *
  * @author Jonathan
  */
-@WebServlet(name = "STotal", urlPatterns = {"/STotal"})
-public class STotal extends HttpServlet {
+@WebServlet(name = "SQuitarItem", urlPatterns = {"/SQuitarItem"})
+public class SQuitarItem extends HttpServlet {
 
-    ArrayList<Carretera> carreteras;
-    int[] cantidad;
-    boolean calculo = false;
-    DecimalFormat formatea = new DecimalFormat("###,###.##");
+    ArrayList<Carretera> carreta;
+    int[] can;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            int total = 0;
+        try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
-            CarreteraDAO cd = new CarreteraDAO();
-
-            String rut = request.getParameter("rut");
-            String nombre = request.getParameter("nombre");
-            String direccion = request.getParameter("direccion");
-            String comprador = request.getParameter("comprador");
-
-            Empresa e = new Empresa();
-            e.setRut(rut.isEmpty() ? null : Integer.parseInt(rut));
-            e.setNombre(nombre.isEmpty() ? null : nombre);
-            e.setDireccion(direccion.isEmpty() ? null : direccion);
-            comprador = comprador.isEmpty() ? null : comprador;
-
-            carreteras = (ArrayList<Carretera>) session.getAttribute("carreterasPedido");
-            cantidad = (int[]) session.getAttribute("cantidad");
-
-            for (Carretera c : carreteras) {
-                cantidad[c.getId()] = Integer.parseInt(request.getParameter(String.valueOf(c.getId())));
-            }
-
-            int valor = 0;
-            for (Carretera x : carreteras) {
-                int i = cantidad[x.getId()];
-                if (i > 0) {
-                    valor = cd.buscar(x.getId()).getValor();
-                    total += i * valor;
+            carreta = (ArrayList<Carretera>) session.getAttribute("carreterasPedido");
+            can = (int[]) session.getAttribute("cantidad");
+            int id = Integer.parseInt(request.getParameter("id"));
+            for (Carretera x : carreta) {
+                if (x.getId() == id) {
+                    carreta.remove(x);
+                    can[x.getId()] = 0;
                 }
             }
-            
-            session.setAttribute("empresa", e);
-            session.setAttribute("comprador", comprador);
-            session.setAttribute("cantidad", cantidad);
-            session.setAttribute("total", formatea.format(total));
-            session.setAttribute("totalPedido", total);
-            response.sendRedirect("principal.jsp");
-        } catch (IOException | NumberFormatException e) {
+            session.setAttribute("carreterasPedido", carreta);
+            session.setAttribute("cantidad", can);
+            response.sendRedirect("STotal");
+        } catch (Exception e) {
         }
     }
 

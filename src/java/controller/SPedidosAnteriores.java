@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 import model.CarreteraDAO;
 import model.DetallePedido;
 import model.DetallePedidoDAO;
+import model.Empresa;
+import model.EmpresaDAO;
 import model.Pedido;
 import model.PedidoDAO;
 
@@ -24,6 +26,7 @@ public class SPedidosAnteriores extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            String mje = "";
             HttpSession session = request.getSession();
             session.setAttribute("pedidos", null);
             session.setAttribute("totales", null);
@@ -32,36 +35,40 @@ public class SPedidosAnteriores extends HttpServlet {
             DetallePedidoDAO dp = new DetallePedidoDAO();
             CarreteraDAO cd = new CarreteraDAO();
 
-            String mje = "";
             String texto = "";
             ArrayList<String> cadenas = new ArrayList<>();
             ArrayList<Integer> totales = new ArrayList<>();
             String rut = request.getParameter("rut");
             if (!(rut.isEmpty())) {
                 int key = Integer.parseInt(rut);
-                ArrayList<DetallePedido> detalles = dp.listarDetalles(key);
-                ArrayList<Pedido> pedidos = pd.buscarPedidosEmpresa(key);
-                for (Pedido p : pedidos) {
-                    for (DetallePedido d : detalles) {
-                        if (p.getIdPedido() == d.getIdPedido()) {
-                            texto += cd.buscar(d.getIdCarretera()).getCarretera() + " - ";
+                EmpresaDAO ed = new EmpresaDAO();
+                Empresa em = ed.buscar(key);
+                if (em != null) {
+                    ArrayList<DetallePedido> detalles = dp.listarDetalles(key);
+                    ArrayList<Pedido> pedidos = pd.buscarPedidosEmpresa(key);
+                    for (Pedido p : pedidos) {
+                        for (DetallePedido d : detalles) {
+                            if (p.getIdPedido() == d.getIdPedido()) {
+                                texto += cd.buscar(d.getIdCarretera()).getCarretera() + " - ";
+                            }
                         }
+                        texto = texto.substring(0, texto.length() - 2);
+                        totales.add(p.getTotal());
+                        cadenas.add(texto);
+                        texto = "";
                     }
-                    texto = texto.substring(0,texto.length()-2);
-                    totales.add(p.getTotal());
-                    cadenas.add(texto);
-                    texto = "";
+                    session.setAttribute("detalles", detalles);
+                    session.setAttribute("pedidos", pedidos);
+                    session.setAttribute("totales", totales);
+                    session.setAttribute("cadenas", cadenas);
+
+                    //Limpia datos para nuevo Pedido
+                    session.setAttribute("total", 0);
+                    session.setAttribute("carreterasPedido", null);
+                    session.setAttribute("cantidad", null);
+                } else {
+                    mje = "No hay registros asociados al rut ingresado";
                 }
-                session.setAttribute("detalles", detalles);
-                session.setAttribute("pedidos", pedidos);
-                session.setAttribute("totales", totales);
-                session.setAttribute("cadenas", cadenas);
-
-                //Limpia datos para nuevo Pedido
-                session.setAttribute("total", 0);
-                session.setAttribute("carreterasPedido", null);
-                session.setAttribute("cantidad", null);
-
             } else {
                 mje = "Se requiere el rut para buscar los pedidos...";
             }

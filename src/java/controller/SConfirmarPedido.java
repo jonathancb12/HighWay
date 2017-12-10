@@ -51,47 +51,53 @@ public class SConfirmarPedido extends HttpServlet {
 
             //Valida contenido 
             if (!rut.isEmpty() && !nombre.isEmpty() && !direccion.isEmpty() && !comprador.isEmpty() && !pago.isEmpty() && !retiro.isEmpty()) {
-                int total = (int) session.getAttribute("totalPedido");
-                int totalVoucher = total;
-                for (Carretera c : carreteras) {
-                    cantidad[c.getId()] = Integer.parseInt(request.getParameter(String.valueOf(c.getId())));
-                }
-                Empresa e = new Empresa();
-                e.setRut(Integer.parseInt(rut));
-                e.setNombre(nombre);
-                e.setDireccion(direccion);
-                ed.registrarEmpresa(e);
-
-                Pedido p = new Pedido();
-                p.setRut(e.getRut());
-                p.setFormaPago(pago);
-                p.setComprador(comprador);
-                p.setRetiro(retiro);
-                p.setTotal(total);
-                pd.registrarPedido(p);
-                p.setIdPedido(pd.buscarUltimoPedido(p.getRut()));
-
-                DetallePedido d = new DetallePedido();
-                d.setIdPedido(p.getIdPedido());
-                for (int i = 1; i < cantidad.length; i++) {
-                    if (cantidad[i] > 0) {
-                        dd.registrarDetalle(p, (i) + 1, cantidad[i]);
+                if (carreteras != null && !carreteras.isEmpty()) {
+                    int total = (int) session.getAttribute("totalPedido");
+                    int totalVoucher = total;
+                    for (Carretera c : carreteras) {
+                        cantidad[c.getId()] = Integer.parseInt(request.getParameter(String.valueOf(c.getId())));
                     }
-                }
-                int cantidadV[] = cantidad;
-                ArrayList<Carretera> carreterasV = carreteras;
-                
-                //Limpia para nuevo pedido
-                session.setAttribute("total", null);
-                session.setAttribute("carreterasPedido", null);
-                session.setAttribute("cantidad", null);
+                    Empresa e = new Empresa();
+                    e.setRut(Integer.parseInt(rut));
+                    e.setNombre(nombre);
+                    e.setDireccion(direccion);
+                    ed.registrarEmpresa(e);
 
-                //Carga datos a la session y envía al voucher
-                session.setAttribute("totalVoucher", formatea.format(totalVoucher));
-                session.setAttribute("pedido", p);
-                session.setAttribute("cantidad", cantidadV);
-                session.setAttribute("carreterasV", carreterasV);
-                response.sendRedirect("voucher.jsp");
+                    Pedido p = new Pedido();
+                    p.setRut(e.getRut());
+                    p.setFormaPago(pago);
+                    p.setComprador(comprador);
+                    p.setRetiro(retiro);
+                    p.setTotal(total);
+                    pd.registrarPedido(p);
+                    p.setIdPedido(pd.buscarUltimoPedido(p.getRut()));
+
+                    DetallePedido d = new DetallePedido();
+                    d.setIdPedido(p.getIdPedido());
+                    for (int i = 1; i < cantidad.length; i++) {
+                        if (cantidad[i] > 0) {
+                            dd.registrarDetalle(p, (i) + 1, cantidad[i]);
+                        }
+                    }
+                    int cantidadV[] = cantidad;
+                    ArrayList<Carretera> carreterasV = carreteras;
+
+                    //Limpia para nuevo pedido
+                    session.setAttribute("total", null);
+                    session.setAttribute("carreterasPedido", null);
+                    session.setAttribute("cantidad", null);
+
+                    //Carga datos a la session y envía al voucher
+                    session.setAttribute("totalVoucher", formatea.format(totalVoucher));
+                    session.setAttribute("pedido", p);
+                    session.setAttribute("cantidad", cantidadV);
+                    session.setAttribute("carreterasV", carreterasV);
+                    response.sendRedirect("voucher.jsp");
+                } else {
+                    mje = "Se requiere al menos una carretera seleccionada";
+                    session.setAttribute("mensaje", mje);
+                    response.sendRedirect("principal.jsp");
+                }
             } else {
                 mje = "Todos los campos son requeridos...";
                 session.setAttribute("mensaje", mje);

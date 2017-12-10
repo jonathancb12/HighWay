@@ -84,7 +84,7 @@
                                     <input name="carreteraID" type="number" value="${cp.id}" hidden="true"/>
                                     <td><c:out value="${cp.carretera}"/></td>
                                     <td><input name="${cp.id}" type="number" value="${cantidad[cp.id]}" onchange="this.form.submit()" class="input-group"/></td>
-                                    <td><label><a onclick='this.form.action = "SQuitarPedido"'>[-]</a></label></td>
+                                    <td><button name="id" onclick='this.form.action = "SQuitarItem"' style="border: none;background-color: #ffffff" value="${cp.id}">[-]</button></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -94,7 +94,7 @@
                         </div>
                         <div class="col-md-2">
                             <input type="submit" value="Hacer Pedido" class="btn-primary" onclick='this.form.action = "SConfirmarPedido"'/>
-                        </div><br>
+                        </div><br><br>
                         <label style="color: red"><c:out value="${mensaje}" default=""/></label>
                     </div>
                 </div>

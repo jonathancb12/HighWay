@@ -28,6 +28,7 @@ public class SAgregarPedido extends HttpServlet {
             throws ServletException, IOException {
         try {
             HttpSession session = request.getSession();
+            session.setAttribute("mensaje", "");
             String carretera = request.getParameter("carretera");
             boolean existe = false;
 
@@ -60,7 +61,6 @@ public class SAgregarPedido extends HttpServlet {
                 session.setAttribute("cantidad", cantidad);
                 session.setAttribute("empresa", e);
                 session.setAttribute("comprador", comprador);
-
             }
             response.sendRedirect("principal.jsp");
 
