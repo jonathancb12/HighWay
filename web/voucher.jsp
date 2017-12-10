@@ -45,26 +45,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Ruta 68</td>
-                                        <td><c:out value="${cantidad1[1]}" default="0"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Autopista Del Sol</td>
-                                        <td><c:out value="${cantidad1[2]}" default="0"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ruta Guardia Vieja</td>
-                                        <td><c:out value="${cantidad1[3]}" default="0"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ruta Troncal Sur</td>
-                                        <td><c:out value="${cantidad1[4]}" default="0"/></td>
-                                    </tr>
+                                    <c:forEach items="${carreterasV}" var="cv">
+                                        <tr>
+                                            <td><c:out value="${cv.carretera}"/></td>
+                                            <td><c:out value="${cantidad[cv.id]}"/></td>
+                                        </tr>
+                                    </c:forEach>
                                 </tbody>
                             </table></div><br>
-                        <div class="col-md-6 col-sm-offset-2">
-                            <h4 class="text-dark">Total a Pagar: $ <c:out value="${totalPedido}" default="0"/></h4>
+                        <div class="col-md-8 col-sm-offset-1">
+                            <h4 class="text-dark">Total a Pagar: $ <c:out value="${totalVoucher}" default="0"/></h4>
                             <br>
                         </div>
                         <h4 class="col-md-8">OPCIÓN DE ENVIO: <c:out value="${pedido.retiro}" default=""/></h4>

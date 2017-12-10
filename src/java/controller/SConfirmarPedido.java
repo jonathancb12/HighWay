@@ -25,95 +25,80 @@ import model.PedidoDAO;
 public class SConfirmarPedido extends HttpServlet {
 
     ArrayList<Carretera> carreteras;
-    Integer[] cantidad;
-    Integer[] cantidad1;
+    int[] cantidad;
     DecimalFormat formatea = new DecimalFormat("###,###.##");
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            String mje = "";
             HttpSession session = request.getSession();
 
-            int rut = Integer.parseInt(request.getParameter("rut"));
-            String pago = request.getParameter("pago");
-            String retiro = request.getParameter("retiro");
+            //Recibe datos
+            carreteras = (ArrayList<Carretera>) session.getAttribute("carreterasPedido");
+            cantidad = (int[]) session.getAttribute("cantidad");
+            String rut = request.getParameter("rut");
             String nombre = request.getParameter("nombre");
             String direccion = request.getParameter("direccion");
             String comprador = request.getParameter("comprador");
-            if (rut != 0 && !pago.isEmpty() && !retiro.isEmpty() && !nombre.isEmpty() && !direccion.isEmpty() && !comprador.isEmpty()) {
-                carreteras = (ArrayList<Carretera>) session.getAttribute("carreterasPedido");
-                cantidad = (Integer[]) session.getAttribute("cantidad");
-                int total = Integer.parseInt(session.getAttribute("totalPedido").toString());
+            String pago = request.getParameter("pago");
+            String retiro = request.getParameter("retiro");
 
-                //Instancia objetos DAO
-                EmpresaDAO ed = new EmpresaDAO();
-                PedidoDAO pd = new PedidoDAO();
-                DetallePedidoDAO dp = new DetallePedidoDAO();
-                DetallePedido d = new DetallePedido();
+            //Instancia DAO
+            EmpresaDAO ed = new EmpresaDAO();
+            PedidoDAO pd = new PedidoDAO();
+            DetallePedidoDAO dd = new DetallePedidoDAO();
 
-                //Crea y registra Empresa
+            //Valida contenido 
+            if (!rut.isEmpty() && !nombre.isEmpty() && !direccion.isEmpty() && !comprador.isEmpty() && !pago.isEmpty() && !retiro.isEmpty()) {
+                int total = (int) session.getAttribute("totalPedido");
+                int totalVoucher = total;
+                for (Carretera c : carreteras) {
+                    cantidad[c.getId()] = Integer.parseInt(request.getParameter(String.valueOf(c.getId())));
+                }
                 Empresa e = new Empresa();
-                e.setRut(rut);
+                e.setRut(Integer.parseInt(rut));
                 e.setNombre(nombre);
                 e.setDireccion(direccion);
                 ed.registrarEmpresa(e);
 
-                //Crea y registra Pedido
                 Pedido p = new Pedido();
-                p.setRut(rut);
-                p.setTotal(total);
+                p.setRut(e.getRut());
                 p.setFormaPago(pago);
                 p.setComprador(comprador);
                 p.setRetiro(retiro);
+                p.setTotal(total);
                 pd.registrarPedido(p);
                 p.setIdPedido(pd.buscarUltimoPedido(p.getRut()));
-                //Probablemente aqui y en los subprocesos, esté el problema REVISAR
 
-                //Cuenta segun el id de Carretera
-                Object[][] car = {{1, 0}, {2, 0}, {3, 0}, {4, 0}};
-                for (int i = 0; i < carreteras.size(); i++) {
-                    switch (carreteras.get(i).getId()) {
-                        case 1:
-                            car[0][1] = Integer.parseInt(car[0][1].toString()) + 1;
-                            break;
-                        case 2:
-                            car[1][1] = Integer.parseInt(car[1][1].toString()) + 1;
-                            break;
-                        case 3:
-                            car[2][1] = Integer.parseInt(car[2][1].toString()) + 1;
-                            break;
-                        case 4:
-                            car[3][1] = Integer.parseInt(car[3][1].toString()) + 1;
-                            break;
-                    }
-                }
-
-                //Inserta en tabla detalles_pedido
+                DetallePedido d = new DetallePedido();
                 d.setIdPedido(p.getIdPedido());
-                for (int i = 0; i < car.length; i++) {
-                    if (Integer.parseInt(car[i][1].toString()) > 0) {
-                        dp.registrarDetalle(p, (i) + 1, Integer.parseInt(car[i][1].toString()));
+                for (int i = 1; i < cantidad.length; i++) {
+                    if (cantidad[i] > 0) {
+                        dd.registrarDetalle(p, (i) + 1, cantidad[i]);
                     }
                 }
-
-                //Prepara datos para voucher
-                cantidad1 = cantidad;
-                session.setAttribute("cantidad1", cantidad1);
-
-                //Limpia listas de pedido anterior
+                int cantidadV[] = cantidad;
+                ArrayList<Carretera> carreterasV = carreteras;
+                
+                //Limpia para nuevo pedido
                 session.setAttribute("total", null);
                 session.setAttribute("carreterasPedido", null);
                 session.setAttribute("cantidad", null);
 
-                //Redirecciona al voucher
+                //Carga datos a la session y envía al voucher
+                session.setAttribute("totalVoucher", formatea.format(totalVoucher));
                 session.setAttribute("pedido", p);
+                session.setAttribute("cantidad", cantidadV);
+                session.setAttribute("carreterasV", carreterasV);
                 response.sendRedirect("voucher.jsp");
             } else {
-                String mje = "Todos los campos son requeridos...";
+                mje = "Todos los campos son requeridos...";
                 session.setAttribute("mensaje", mje);
                 response.sendRedirect("principal.jsp");
             }
-        } catch (IOException | NumberFormatException ex) {
+
+        } catch (NumberFormatException ex) {
 
         }
     }

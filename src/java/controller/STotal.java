@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package controller;
 
 import java.io.IOException;
@@ -17,19 +22,21 @@ import model.Empresa;
  *
  * @author Jonathan
  */
-@WebServlet(name = "SAgregarPedido", urlPatterns = {"/SAgregarPedido"})
-public class SAgregarPedido extends HttpServlet {
+@WebServlet(name = "STotal", urlPatterns = {"/STotal"})
+public class STotal extends HttpServlet {
 
-    ArrayList<Carretera> carreterasPedido = new ArrayList<>();
-    int[] cantidad = {0, 0, 0, 0, 0};
+    ArrayList<Carretera> carreteras;
+    int[] cantidad;
+
     DecimalFormat formatea = new DecimalFormat("###,###.##");
+    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            int total = 0;
             HttpSession session = request.getSession();
-            String carretera = request.getParameter("carretera");
-            boolean existe = false;
+            CarreteraDAO cd = new CarreteraDAO();
 
             String rut = request.getParameter("rut");
             String nombre = request.getParameter("nombre");
@@ -42,30 +49,29 @@ public class SAgregarPedido extends HttpServlet {
             e.setDireccion(direccion.isEmpty() ? null : direccion);
             comprador = comprador.isEmpty() ? null : comprador;
 
-            for (Carretera c : carreterasPedido) {
+            carreteras = (ArrayList<Carretera>) session.getAttribute("carreterasPedido");
+            cantidad = (int[]) session.getAttribute("cantidad");
+
+            for (Carretera c : carreteras) {
                 cantidad[c.getId()] = Integer.parseInt(request.getParameter(String.valueOf(c.getId())));
             }
-            if (!(carretera.equals("Carreteras"))) {
-                CarreteraDAO cd = new CarreteraDAO();
-                Carretera c = cd.buscar(Integer.parseInt(carretera));
-                for (Carretera x : carreterasPedido) {
-                    if (c.getId() == x.getId()) {
-                        existe = true;
-                    }
+            
+            int valor = 0;
+            for (Carretera x : carreteras) {
+                int i = cantidad[x.getId()];
+                if (i > 0) {
+                    valor = cd.buscar(x.getId()).getValor();
+                    total += i * valor;
                 }
-                if (!existe) {
-                    carreterasPedido.add(c);
-                }
-                session.setAttribute("carreterasPedido", carreterasPedido);
-                session.setAttribute("cantidad", cantidad);
-                session.setAttribute("empresa", e);
-                session.setAttribute("comprador", comprador);
-
             }
+
+            session.setAttribute("cantidad", cantidad);
+            session.setAttribute("total", formatea.format(total));
+            session.setAttribute("totalPedido", total);
+            session.setAttribute("empresa", e);
+            session.setAttribute("comprador", comprador);
             response.sendRedirect("principal.jsp");
-
-        } catch (NumberFormatException ex) {
-
+        } catch (Exception e) {
         }
     }
 
