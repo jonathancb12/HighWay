@@ -24,21 +24,31 @@ public class SQuitarItem extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try (PrintWriter out = response.getWriter()) {
+        try {
             HttpSession session = request.getSession();
             carreta = (ArrayList<Carretera>) session.getAttribute("carreterasPedido");
             can = (int[]) session.getAttribute("cantidad");
             int id = Integer.parseInt(request.getParameter("id"));
+            boolean es = false;
+            Carretera z = null;
             for (Carretera x : carreta) {
                 if (x.getId() == id) {
-                    carreta.remove(x);
-                    can[x.getId()] = 0;
+                    if (can[x.getId()] > 0) {
+                        can[x.getId()] = 0;
+                    }
+                    z = x;
+                    es = true;
                 }
+            }
+
+            if (es) {
+                carreta.remove(z);
+                z = null;
             }
             session.setAttribute("carreterasPedido", carreta);
             session.setAttribute("cantidad", can);
-            response.sendRedirect("STotal");
-        } catch (Exception e) {
+            response.sendRedirect("principal.jsp");
+        } catch (IOException | NumberFormatException e) {
         }
     }
 
