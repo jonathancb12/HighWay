@@ -16,6 +16,7 @@ import model.Empresa;
 import model.EmpresaDAO;
 import model.Pedido;
 import model.PedidoDAO;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -27,6 +28,7 @@ public class SConfirmarPedido extends HttpServlet {
     ArrayList<Carretera> carreteras;
     int[] cantidad;
     DecimalFormat formatea = new DecimalFormat("###,###.##");
+    static Logger log = Logger.getLogger(SConfirmarPedido.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -105,7 +107,7 @@ public class SConfirmarPedido extends HttpServlet {
             }
 
         } catch (NumberFormatException ex) {
-
+            log.error(ex.getMessage());
         }
     }
 

@@ -19,44 +19,47 @@
     </head>
     <body><br>
         <div class="container">
-            <form action="SPedidosAnteriores">
-                <div class="col-md-1">
-                    <img class="text-center" src="image/logo.png" width="100"/><br><br>
-                    <div class="text-center">
-                        <label><a href="index.jsp">Inicio</a></label><br>
-                        <label><a href="pedidosAnteriores.jsp">Ver Pedidos</a></label><br>
-                        <label><a href="ayuda.jsp">Ayuda</a></label>                   
-                    </div>
+            <div class="col-md-1">
+                <img class="text-center" src="image/logo.png" width="100"/><br><br>
+                <div class="text-center">
+                    <label><a href="index.jsp">Inicio</a></label><br>
+                    <label><a href="pedidosAnteriores.jsp">Ver Pedidos</a></label><br>
+                    <label><a href="ayuda.jsp">Ayuda</a></label>                   
                 </div>
-                <br><div class="col-md-7 text-center"></div>
-                <div class="col-sm-2 col-sm-offset-1">
-                    <label><a href="carreteras.jsp">Ver Carreteras</a></label>
-                </div><br><br><br>
-                <div class="col-md-5 col-md-offset-2">
+            </div>
+            <br><div class="col-md-7 text-center"></div>
+            <div class="col-sm-2 col-sm-offset-1">
+                <label><a href="carreteras.jsp">Ver Carreteras</a></label>
+            </div><br><br><br>
+            <div class="col-md-5 col-md-offset-2">
+                <form action="SPedidosAnteriores">
                     <input name="rut" type="number" class="input-buscar" placeholder="Rut Cliente"/> 
                     <input type="submit" value="Buscar" class="btn btn-primary"/>
                     <label style="color: red"><c:out value="${mensaje}" default=""/></label>
-                </div><br><br><br>
-                <div class="col-md-7 col-md-offset-1 datagrid">
-                    <table>
-                        <thead>
-                            <tr><th>Carretera</th>
-                                <th>Cantidad</th>
-                                <th></th>
+                </form>
+            </div><br><br><br>
+            <div class="col-md-7 col-md-offset-1 datagrid">
+                <table>
+                    <thead>
+                        <tr><th>Carretera</th>
+                            <th>Cantidad</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${pedidos}" varStatus="p" var="pe">
+                        <form action="SRepetirPedido" method="post">
+                            <input name="idPedido" type="number" value="${pe.idPedido}" hidden="true"/>
+                            <tr>
+                            <td><c:out value="${cadenas[p.index]}"/></td>
+                            <td><c:out value="${totales[p.index]}"/></td>
+                            <td><button style="border: none;background-color: #ffffff" onclick='this.form.action="SRepetirPedido"'>[-]</button></td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${pedidos}" varStatus="p">
-                                <tr>
-                                    <td><c:out value="${cadenas[p.index]}"/></td>
-                                    <td><c:out value="${totales[p.index]}"/></td>
-                                    <td>[+]</td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </form>
+                        </form>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </body>
 </html>

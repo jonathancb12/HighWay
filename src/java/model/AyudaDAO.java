@@ -19,9 +19,10 @@ public class AyudaDAO {
     private static final String insert_ayuda = "INSERT INTO ayuda(nombre,apellido, mail,telefono, mensaje) VALUES(?,?,?,?,?)";
 
     private static final Conexion con = Conexion.instancia();
-    static Logger log = Logger.getLogger(Conexion.class);
     private PreparedStatement ps;
     private ResultSet rs;
+    
+    static Logger log = Logger.getLogger(AyudaDAO.class);
     
     public boolean registrarAyuda(Ayuda a) {
         boolean confirmacion = false;
@@ -35,9 +36,9 @@ public class AyudaDAO {
             ps.setString(5, a.getMensaje());
             int i = ps.executeUpdate();
             if (i != 0) {
+                log.info("Datos de contacto registrados correctamente");
                 confirmacion = true;
             }
-            log.info("Datos de contacto recibidos correctamente");
         } catch (SQLException ex) {
             log.error(ex);
         }

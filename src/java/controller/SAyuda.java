@@ -1,48 +1,43 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.Carretera;
-import model.CarreteraDAO;
+import model.Ayuda;
+import model.AyudaDAO;
 import org.apache.log4j.Logger;
 
 /**
  *
- * @author Jonathan
+ * @author David
  */
-@WebServlet(name = "SCargar", urlPatterns = {"/SCargar"})
-public class SCargar extends HttpServlet {
+@WebServlet(name = "SAyuda", urlPatterns = {"/SAyuda"})
+public class SAyuda extends HttpServlet {
 
-    static Logger log = Logger.getLogger(SCargar.class);
+    static Logger log = Logger.getLogger(SAyuda.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            HttpSession session = request.getSession();
-            CarreteraDAO cd = new CarreteraDAO();
+            AyudaDAO ad = new AyudaDAO();
+            Ayuda a = new Ayuda();
 
-            String url = request.getParameter("direccion");
-            ArrayList<Carretera> carreteras = cd.listarTodas();
-            log.info("Carreteras obtenidas y listas para utilizar.");
-            session.setAttribute("carreteras", carreteras);
-            response.sendRedirect(url);
-        } catch (IOException ex) {
-            log.error(ex.getMessage());
+            a.setNombre(request.getParameter("name"));
+            a.setApellido(request.getParameter("apellido"));
+            a.setMail(request.getParameter("mail"));
+            a.setTelefono(request.getParameter("telephone"));
+            a.setMensaje(request.getParameter("message"));
+            ad.registrarAyuda(a);
+            response.sendRedirect("index.jsp");
+        } catch (IOException e) {
+            log.error(e);
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

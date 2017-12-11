@@ -15,6 +15,7 @@ import model.Empresa;
 import model.EmpresaDAO;
 import model.Pedido;
 import model.PedidoDAO;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -22,6 +23,8 @@ import model.PedidoDAO;
  */
 @WebServlet(name = "SPedidosAnteriores", urlPatterns = {"/SPedidosAnteriores"})
 public class SPedidosAnteriores extends HttpServlet {
+
+    static Logger log = Logger.getLogger(SPedidosAnteriores.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -52,11 +55,13 @@ public class SPedidosAnteriores extends HttpServlet {
                                 texto += cd.buscar(d.getIdCarretera()).getCarretera() + " - ";
                             }
                         }
+
                         texto = texto.substring(0, texto.length() - 2);
-                        totales.add(p.getTotal());
                         cadenas.add(texto);
+                        totales.add(p.getTotal());
                         texto = "";
                     }
+                    log.info("Pedidos anteriores cargados en vista, con éxito.");
                     session.setAttribute("detalles", detalles);
                     session.setAttribute("pedidos", pedidos);
                     session.setAttribute("totales", totales);
@@ -67,6 +72,7 @@ public class SPedidosAnteriores extends HttpServlet {
                     session.setAttribute("carreterasPedido", null);
                     session.setAttribute("cantidad", null);
                 } else {
+                    log.info("Se buscó un rut que no existe en la Base de Datos.");
                     mje = "No hay registros asociados al rut ingresado";
                 }
             } else {
@@ -76,7 +82,7 @@ public class SPedidosAnteriores extends HttpServlet {
             session.setAttribute("mensaje", mje);
             response.sendRedirect("pedidosAnteriores.jsp");
         } catch (IOException | NumberFormatException ex) {
-
+            log.error(ex.getMessage());
         }
 
     }

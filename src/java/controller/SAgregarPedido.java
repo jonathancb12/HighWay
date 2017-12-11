@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import model.Carretera;
 import model.CarreteraDAO;
 import model.Empresa;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -23,6 +24,8 @@ public class SAgregarPedido extends HttpServlet {
     ArrayList<Carretera> carreterasPedido = new ArrayList<>();
     int[] cantidad = {0, 0, 0, 0, 0};
     DecimalFormat formatea = new DecimalFormat("###,###.##");
+
+    static Logger log = Logger.getLogger(SAgregarPedido.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -56,7 +59,9 @@ public class SAgregarPedido extends HttpServlet {
                 }
                 if (!existe) {
                     carreterasPedido.add(c);
+                    log.info("Carretera agregada al pedido.");
                 }
+
                 session.setAttribute("carreterasPedido", carreterasPedido);
                 session.setAttribute("cantidad", cantidad);
                 session.setAttribute("empresa", e);
@@ -65,7 +70,7 @@ public class SAgregarPedido extends HttpServlet {
             response.sendRedirect("principal.jsp");
 
         } catch (NumberFormatException ex) {
-
+            log.error(ex.getMessage());
         }
     }
 

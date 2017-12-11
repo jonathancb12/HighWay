@@ -1,9 +1,11 @@
 package model;
 
+import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -19,6 +21,9 @@ public class EmpresaDAO {
     PreparedStatement ps;
     ResultSet rs;
 
+    static Logger log = Logger.getLogger(EmpresaDAO.class);
+    URL url = EmpresaDAO.class.getResource("log4j.properties");
+
     public EmpresaDAO() {
     }
 
@@ -32,6 +37,7 @@ public class EmpresaDAO {
                 ps.execute();
             }
         } catch (SQLException ex) {
+            log.error(ex.getMessage());
         }
     }
 
@@ -44,10 +50,11 @@ public class EmpresaDAO {
                 Empresa e = new Empresa();
                 e.setRut(rs.getInt("rut"));
                 e.setNombre(rs.getString("nombre"));
-                e.setDireccion(rs.getString("direcion"));
+                e.setDireccion(rs.getString("direccion"));
                 lista.add(e);
             }
-        } catch (SQLException e) {
+        } catch (SQLException ex) {
+            log.error(ex.getMessage());
         }
         return lista;
     }
@@ -62,10 +69,11 @@ public class EmpresaDAO {
                 e = new Empresa();
                 e.setRut(rs.getInt("rut"));
                 e.setNombre(rs.getString("nombre"));
-                e.setDireccion(rs.getString("direcion"));
+                e.setDireccion(rs.getString("direccion"));
                 return e;
             }
         } catch (SQLException ex) {
+            log.error(ex.getMessage());
         }
         return e;
     }

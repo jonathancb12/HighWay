@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.io.IOException;
@@ -12,32 +7,43 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.Carretera;
-import model.CarreteraDAO;
+import model.DetallePedido;
+import model.DetallePedidoDAO;
+import model.Pedido;
+import model.PedidoDAO;
 import org.apache.log4j.Logger;
 
 /**
  *
  * @author Jonathan
  */
-@WebServlet(name = "SCargar", urlPatterns = {"/SCargar"})
-public class SCargar extends HttpServlet {
+@WebServlet(name = "SRepetirPedido", urlPatterns = {"/SRepetirPedido"})
+public class SRepetirPedido extends HttpServlet {
 
-    static Logger log = Logger.getLogger(SCargar.class);
+    static Logger log = Logger.getLogger(SRepetirPedido.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            HttpSession session = request.getSession();
-            CarreteraDAO cd = new CarreteraDAO();
+            //Crea DAOs y recibe datos
+            DetallePedidoDAO dp = new DetallePedidoDAO();
+            PedidoDAO pd = new PedidoDAO();
+            int id = Integer.parseInt(request.getParameter("idPedido"));
 
-            String url = request.getParameter("direccion");
-            ArrayList<Carretera> carreteras = cd.listarTodas();
-            log.info("Carreteras obtenidas y listas para utilizar.");
-            session.setAttribute("carreteras", carreteras);
-            response.sendRedirect(url);
-        } catch (IOException ex) {
+            //Busca registros en la BD y registra con nuevo id
+            Pedido p = pd.buscarPedidoId(id);
+            pd.registrarPedido(p);
+            p.setIdPedido(pd.buscarUltimoPedido(p.getRut()));
+            p = pd.buscarPedidoId(p.getIdPedido());
+            
+            //Comienza insercción de registros según los datos recibidos 
+            ArrayList<DetallePedido> listaDetalles = dp.listarDetalles(p.getRut());
+            for (DetallePedido d : listaDetalles) {
+                dp.registrarDetalle(p, d.getIdCarretera(), d.getCantidad());
+            }
+            response.sendRedirect("pedidosAnteriores.jsp");
+
+        } catch (NumberFormatException ex) {
             log.error(ex.getMessage());
         }
     }

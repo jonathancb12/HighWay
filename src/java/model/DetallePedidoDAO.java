@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -23,6 +24,8 @@ public class DetallePedidoDAO {
     PreparedStatement ps;
     ResultSet rs;
 
+    static Logger log = Logger.getLogger(DetallePedidoDAO.class);
+
     public void registrarDetalle(Pedido p, int id, int cantidad) {
         try {
             ps = con.getConnection().prepareStatement(insert);
@@ -30,7 +33,9 @@ public class DetallePedidoDAO {
             ps.setInt(2, id);
             ps.setInt(3, cantidad);
             ps.execute();
+            log.info("Detalle de Pedido, registrado con éxito.");
         } catch (SQLException ex) {
+            log.error(ex.getMessage());
         }
     }
 
@@ -48,7 +53,10 @@ public class DetallePedidoDAO {
                 d.setCantidad(rs.getInt("cantidad"));
                 lista.add(d);
             }
-        } catch (SQLException e) {
+            log.info("Detalles de Pedidos, listados con éxito.");
+            return lista;
+        } catch (SQLException ex) {
+            log.error(ex.getMessage());
         }
         return lista;
     }

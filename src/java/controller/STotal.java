@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import model.Carretera;
 import model.CarreteraDAO;
 import model.Empresa;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -24,6 +25,8 @@ public class STotal extends HttpServlet {
     int[] cantidad;
     boolean calculo = false;
     DecimalFormat formatea = new DecimalFormat("###,###.##");
+
+    static Logger log = Logger.getLogger(STotal.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -58,14 +61,15 @@ public class STotal extends HttpServlet {
                     total += i * valor;
                 }
             }
-            
+            log.info("Total calculado con cantidades ingresadas.");
             session.setAttribute("empresa", e);
             session.setAttribute("comprador", comprador);
             session.setAttribute("cantidad", cantidad);
             session.setAttribute("total", formatea.format(total));
             session.setAttribute("totalPedido", total);
             response.sendRedirect("principal.jsp");
-        } catch (IOException | NumberFormatException e) {
+        } catch (IOException | NumberFormatException ex) {
+            log.error(ex.getMessage());
         }
     }
 

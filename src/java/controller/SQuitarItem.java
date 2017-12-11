@@ -1,8 +1,7 @@
 package controller;
 
+import static controller.SAgregarPedido.log;
 import java.io.IOException;
-import java.io.PrintWriter;
-import static java.lang.System.out;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Carretera;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -21,6 +21,8 @@ public class SQuitarItem extends HttpServlet {
 
     ArrayList<Carretera> carreta;
     int[] can;
+
+    static Logger log = Logger.getLogger(SQuitarItem.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -44,11 +46,13 @@ public class SQuitarItem extends HttpServlet {
             if (es) {
                 carreta.remove(z);
                 z = null;
+                log.info("Carretera eliminada del nuevo pedido.");
             }
             session.setAttribute("carreterasPedido", carreta);
             session.setAttribute("cantidad", can);
             response.sendRedirect("principal.jsp");
-        } catch (IOException | NumberFormatException e) {
+        } catch (IOException | NumberFormatException ex) {
+            log.error(ex.getMessage());
         }
     }
 
